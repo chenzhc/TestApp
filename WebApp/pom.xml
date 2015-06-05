@@ -20,6 +20,7 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
@@ -36,6 +37,7 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
