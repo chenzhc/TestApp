@@ -27,7 +27,7 @@ public class AbsIntegerEncoderTest {
         //读取出站数据
 //        ByteBuf output = (ByteBuf) channel.readOutbound();
         for (int i = 1; i < 10; i++) {
-           System.out.println(channel.readOutbound());
+           System.out.println(channel.<Boolean>readOutbound());
         }
 //        Assert.assertFalse(output.isReadable());
         Assert.assertNull(channel.readOutbound());
