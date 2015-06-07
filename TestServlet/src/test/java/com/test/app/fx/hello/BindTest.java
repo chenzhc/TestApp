@@ -2,10 +2,13 @@ package com.test.app.fx.hello;
 
 import javafx.beans.binding.*;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.BorderPane;
 import org.junit.Test;
 
 import java.nio.DoubleBuffer;
+import java.util.Formatter;
 import java.util.Locale;
 
 /**
@@ -153,5 +156,98 @@ public class BindTest {
 
         StringBinding stateBinding = Bindings.selectString(p,"addr","state");
         System.out.println(stateBinding.get());
+    }
+
+    @Test
+    public void test11(){
+        final DoubleProperty radius = new SimpleDoubleProperty(7.0);
+        final DoubleProperty area  = new SimpleDoubleProperty(0.0);
+
+        DoubleBinding areaBinding = new DoubleBinding() {
+            {
+                this.bind(radius);
+            }
+            @Override
+            protected double computeValue() {
+                double r = radius.get();
+                double area = Math.PI * r * r;
+
+                return area;
+            }
+        };
+
+        area.bind(areaBinding);
+
+        StringBinding desc = new StringBinding() {
+            {
+                this.bind(radius,area);
+            }
+
+            @Override
+            protected String computeValue() {
+                Formatter f = new Formatter();
+                f.format(Locale.US,"Radius = %.2f, Area = %.2f",
+                        radius.get(),area.get());
+                String desc = f.toString();
+
+                return desc;
+            }
+
+            @Override
+            public void dispose() {
+//                super.dispose();
+                System.out.println("Description binding is disposed.");
+            }
+
+            @Override
+            public ObservableList<?> getDependencies() {
+
+                return FXCollections.unmodifiableObservableList(
+                        FXCollections.observableArrayList(radius,area)
+                );
+            }
+
+            @Override
+            protected void onInvalidating() {
+                System.out.println("Description is invalid.");
+            }
+        };
+
+        System.out.println(desc.getValue());
+
+        radius.set(14.0);
+        System.out.println(desc.getValue());
+
+    }
+
+    @Test
+    public void test12(){
+        ObservableList<String> list = FXCollections.observableArrayList("one","two");
+        System.out.println("After creating list: " + list);
+
+        list.addAll("three","four");
+        System.out.println("After adding elements: " + list);
+
+        list.remove(1,3);
+        System.out.println("After adding elements: " + list);
+
+        list.retainAll("one");
+        System.out.println("After adding elements: " + list);
+
+        ObservableList<String> list2 =
+                FXCollections.<String>observableArrayList("1","2","3");
+
+        list.setAll(list2);
+
+        System.out.println("After adding elements: " + list);
+
+        ObservableList<String> list3 =
+                FXCollections.<String>observableArrayList("ten","twenty","thirty");
+
+        ObservableList<String> list4 =
+                FXCollections.concat(list,list3);
+        System.out.println("list2 is " + list2);
+        System.out.println("list3 is " + list3);
+        System.out.println("After concatenation list: " + list4);
     }
 }
