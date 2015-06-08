@@ -45,6 +45,7 @@
         <module>WebApp</module>
         <module>TestServlet</module>
         <module>Lunch4j-Test</module>
+        <module>Dropwizard-App</module>
     </modules>
 
     <build>
