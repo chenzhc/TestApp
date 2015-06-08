@@ -44,6 +44,7 @@
     <modules>
         <module>WebApp</module>
         <module>TestServlet</module>
+        <module>Lunch4j-Test</module>
     </modules>
 
     <build>
