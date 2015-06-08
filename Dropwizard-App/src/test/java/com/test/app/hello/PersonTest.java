@@ -24,4 +24,15 @@ public class PersonTest {
 
     }
 
+    @Test
+    public void deserializesFromJSON() throws Exception {
+        Person person = new Person("Luther Blissett", "lb@example.com");
+
+        System.out.println(fixture("fixtures/person.json"));
+
+        Person person2 = MAPPER.readValue(fixture("fixtures/person.json"), Person.class);
+
+        System.out.println(MAPPER.writeValueAsString(person2));
+    }
+
 }
